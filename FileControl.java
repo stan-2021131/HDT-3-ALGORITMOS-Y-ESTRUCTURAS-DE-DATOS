@@ -22,16 +22,14 @@ public class FileControl {
     @SuppressWarnings("null")
     public Integer[] loadList(String fileName){
         Integer[] list = null;
-        int listCount = 0;
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
             String line;
             if((line = bufferedReader.readLine()) != null){
                 String[] data = line.split(" ");
-                for (String data1 : data) {
-                    //Conversión de los datos de String a Integer
-                    if (data1.matches("\\d+")) {
-                        list[listCount] = Integer.valueOf(data1);
-                        listCount += 1;
+                list = new Integer[data.length];
+                for(int i=0; i<data.length; i++){
+                    if (data[i].matches("\\d+")) {
+                        list[i] = Integer.valueOf(data[i]);
                     }
                 }
             }
@@ -40,6 +38,7 @@ public class FileControl {
         }
         return list;
     }
+
 
     //Escritura de la lista de enteros en el txt
     public String writeList(String fileName, Integer[] list){

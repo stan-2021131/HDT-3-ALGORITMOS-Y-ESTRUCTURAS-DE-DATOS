@@ -61,15 +61,73 @@ public class Sort<T extends Comparable<T>> implements IGenericSort<T>{
     }
 
     @Override
-    public T[] quickSort(T[] arr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'quickSort'");
+    public T[] quickSort(T[] arr, int left, int right) {
+        T pivot = arr[left];
+        int l = left;
+        int r = right;
+        T aux;
+        while (l<r) { 
+            while(arr[l].compareTo(pivot) <= 0 && l<r) l++;
+            while(arr[r].compareTo(pivot) > 0) r--;
+            if(l<r){
+                aux = arr[l];
+                arr[l] = arr[r];
+                arr[r] = aux;
+            }
+        }
+        arr[left] = arr[r];
+        arr[r] = pivot;
+        if(left < r-1) quickSort(arr, left, r-1);
+        if(r+1 < right) quickSort(arr, r+1, right);
+        return arr;
     }
 
     @Override
     public T[] radixSort(T[] arr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'radixSort'");
+        int size = arr.length;
+        Integer[] tempArr = new Integer[size];
+        for (int i = 0; i < size; i++) {
+            tempArr[i] = ((Integer) arr[i]).intValue();
+        }
+        int maxElement = ((Integer) getMax(arr)).intValue();
+        for (int place = 1; maxElement / place > 0; place *= 10) {
+            tempArr = countingSortV2(tempArr, place);
+        }
+        for (int i = 0; i < size; i++) {
+            arr[i] = (T) Integer.valueOf(tempArr[i]);
+        }
+        return arr;
+    }
+
+    //Segunda versión del counting sort, usado para el funcionamiento del radix sort, ordena los elementos basado en lugares significativos
+    private Integer[] countingSortV2(Integer[] arr, int place) {
+        int size = arr.length;
+        Integer[] output = new Integer[size];
+        int[] count = new int[10];
+        for (int i = 0; i < size; i++) {
+            int index = (arr[i] / place) % 10;
+            count[index]++;
+        }
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        for (int i = size - 1; i >= 0; i--) {
+            int index = (arr[i] / place) % 10;
+            output[count[index] - 1] = arr[i];
+            count[index]--;
+        }
+        return output;
+    }
+
+    //Obtiene el valor máximo del arr - para radixsort
+    private T getMax(T[] arr) {
+        T max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i].compareTo(max) > 0) {
+                max = arr[i];
+            }
+        }
+        return max;
     }
 
     /*Sort a eleccion */
