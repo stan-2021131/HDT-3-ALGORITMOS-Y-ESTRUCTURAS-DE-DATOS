@@ -148,22 +148,32 @@ public class Sort<T extends Comparable<T>> implements IGenericSort<T>{
         int range = getRange(max, min);
         int[] count = new int[range+1];
         for(T element : arr){
-            count[element.compareTo(min)]++;
+            count[getIndex(element, min)]++;
         }
         for(int i = 1; i < count.length; i++){
             count[i] += count[i-1];
         }
         T[] output = (T[]) new Comparable[arr.length];
         for(int i = arr.length-1; i >= 0; i--){
-            output[count[arr[i].compareTo(min)]-1] = arr[i];
-            count[arr[i].compareTo(min)]--;
+            output[count[getIndex(arr[i], min)]-1] = arr[i];
+            count[getIndex(arr[i], min)]--;
         }
         System.arraycopy(output, 0, arr, 0, arr.length);
         return arr;
     }
 
     private int getRange(T max, T min){
-        return max.compareTo(min);
+        if (max instanceof Integer) {
+            return ((Integer) max - (Integer) min);
+        }
+        throw new UnsupportedOperationException("Only integers are supported");
+    }
+
+    private int getIndex(T element, T min) {
+        if (element instanceof Integer) {
+            return ((Integer)element) - ((Integer)min);
+        }
+        throw new UnsupportedOperationException("Tipo no soportado para Counting Sort");
     }
     
 }
