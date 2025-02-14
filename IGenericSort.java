@@ -1,3 +1,4 @@
+//Interfaz en donde se encuentran los distintos algoritmos
 public interface IGenericSort<T extends Comparable<T>>{
     public T[] insertionSort(T[] arr);
     public T[] mergeSort(T[] arr);

@@ -1,3 +1,8 @@
+/*Tarea: Hoja de trabajo 3
+    Curso: Algoritmos y estructuras de datos
+    Integrantes: Girón, Jackelyn (24737); Tan, Sergio (24759)
+    Fecha de última modificación: 2025-02-13
+    Descripción del programa: Tiene la finalidad de comprender las estructuras de distintos algoritmos sort y comparar la eficacia de cada uno de ellos */
 
 public class Main {
     public static void main(String[] args) {
